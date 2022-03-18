@@ -1,13 +1,14 @@
 # MASTERMIND CLI GAME
 # Array of letters representing colours, and keys representing scores.
-# secretCode will be used to store a randomly generated code, userGuess
+# secret_code will be used to store a randomly generated code, user_guess
 # will be used to store guesses that will be scored using score array.
 from math import floor
 from random import random
+import pdb
 
 
 # Function to generate random integers within range.
-def getRandomInt(max):
+def get_random_int(max):
     return floor(random() * max)
 
 
@@ -16,19 +17,19 @@ def main():
     colours = ['R', 'W', 'Y', 'G', 'Bu', 'Bk']
     keys = ['\u25CF', '\u25CB']
     positions = 4
-    secretCode = []
-    userGuess = []
+    secret_code = []
+    user_guess = []
     score = []
     guess = ""
     ans = ''
     rounds = turns = wins = 0
-    gameOver = False
+    game_over = False
     forfeit = False
 
     # ROUND INITIALIZATION SECTION
     while (ans != 'N' and ans != 'n'):
         # Reset turns for next round and print information.
-        gameOver = False
+        game_over = False
         forfeit = False
         turns = 0
         if (rounds == 0):
@@ -50,18 +51,18 @@ def main():
         # Generate random secret code.
         for i in range(positions):
             if rounds == 0:
-                secretCode.append(colours[getRandomInt(len(colours))])
+                secret_code.append(colours[get_random_int(len(colours))])
             else:
-                secretCode[i] = colours[getRandomInt(len(colours))]
+                secret_code[i] = colours[get_random_int(len(colours))]
         print("Secret Code = ", end="")
-        print(secretCode)
+        print(secret_code)
 
 
         # GUESSING SECTION
-        while not gameOver:
+        while not game_over:
             # Reset score array and guess array.
             score = [None for i in range(positions)]
-            userGuess = [None for i in range(positions)]
+            user_guess = [None for i in range(positions)]
 
             # Input user guess.
             print("Please enter one colour for each position.")
@@ -84,30 +85,31 @@ def main():
                 if forfeit:
                     break
                 else:
-                    userGuess[i] = guess
+                    user_guess[i] = guess
 
 
             # SCORING SECTION
             if not forfeit:
                 for i in range(positions):
                     # Assign keys for right colour, right position.
-                    if userGuess[i] == secretCode[i]:
+                    if user_guess[i] == secret_code[i]:
                         score[i] = keys[0]
 
                 for i in range(positions):
                     # Assign keys for right colour, wrong position.
-                    if userGuess[i] == secretCode[i]:
+                    if user_guess[i] == secret_code[i]:
                         pass
-                    elif userGuess[i] in secretCode:
+                    elif user_guess[i] in secret_code:
                         for j in range(positions):
-                            if i != j and userGuess[i] == secretCode[j]:
+                            if i != j and user_guess[i] == secret_code[j]:
+                                pdb.set_trace()
 
 
 
             # END OF TURN/ROUND SECTION
             # Output win or result from score array.
             if all(key == keys[0] for key in score):
-                gameOver = True
+                game_over = True
                 wins = wins + 1
                 rounds = rounds + 1
                 if turns == 0:
@@ -120,7 +122,7 @@ def main():
                 while ans != 'N' and ans != 'n' and ans != 'Y' and ans != 'y':
                     ans = str(input("Invalid input! Please enter Y or N."))
             elif forfeit:
-                gameOver = True
+                game_over = True
                 rounds = rounds + 1
                 print("You forfeit this round, the computer wins!")
                 print(f"Computer: {rounds-wins}, User: {wins}")
@@ -133,7 +135,7 @@ def main():
                 print("\t\tGuess\t\tScoring")
                 print('-' * 70)
                 print(f"Guess {turns+1}:\t", end="")
-                for colour in userGuess:
+                for colour in user_guess:
                     print(colour, ' ', end="")
                 print('\t', end="")
                 for key in score:
