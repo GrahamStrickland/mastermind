@@ -54,8 +54,6 @@ def main():
                 secret_code.append(colours[get_random_int(len(colours))])
             else:
                 secret_code[i] = colours[get_random_int(len(colours))]
-        print("Secret Code = ", end="")
-        print(secret_code)
 
 
         # GUESSING SECTION
@@ -102,8 +100,7 @@ def main():
                     elif user_guess[i] in secret_code:
                         for j in range(positions):
                             if i != j and user_guess[i] == secret_code[j]:
-                                pdb.set_trace()
-
+                                score[i] = keys[1]
 
 
             # END OF TURN/ROUND SECTION
